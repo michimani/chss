@@ -13,10 +13,10 @@ Simple python script changes emoji and message to Slack status.
 
 ### Create config.json
 
-Create a `config.json` by copying `config.json.org` .
+Create a `config.json` by copying `config.json.sample` .
 
 ```bash
-$ cp config.json.org config.json
+$ cp config.json.sample config.json
 ```
 
 ```json
