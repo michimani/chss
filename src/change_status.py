@@ -4,13 +4,6 @@ import os
 import urllib.parse
 import urllib.request
 
-# CLI option setting
-p = argparse.ArgumentParser()
-p.add_argument('-e', '--emoji',
-               help='Slack emoji code for status icon. (e.g) :ghost:')
-p.add_argument('-m', '--message', help='message for status.')
-args = p.parse_args()
-
 # define config value
 with open(os.path.dirname(os.path.abspath(__file__)) + '/../config.json') as j:
     config = json.load(j)
@@ -20,6 +13,16 @@ API_TOKEN = config['slack']['api_token']
 DEFAULT_STATUS_EMOJI = config['slack']['default_status_emoji']
 DEFAULT_STATUS_MESSAGE = config['slack']['default_status_message']
 PROFILE_SET_URL = 'https://slack.com/api/users.profile.set'
+
+# CLI option setting
+p = argparse.ArgumentParser()
+p.add_argument('-e', '--emoji',
+               help='Slack emoji code for status icon. (e.g) :ghost:',
+               default=DEFAULT_STATUS_EMOJI)
+p.add_argument('-m', '--message',
+               help='message for status.',
+               default=DEFAULT_STATUS_MESSAGE)
+args = p.parse_args()
 
 
 def set_status(emoji, message):
@@ -49,12 +52,7 @@ def set_status(emoji, message):
 
 
 if __name__ == '__main__':
-    status_emoji = DEFAULT_STATUS_EMOJI
-    status_message = DEFAULT_STATUS_MESSAGE
-
-    if args.emoji is not None and args.emoji != '':
-        status_emoji = args.emoji
-    if args.message is not None and args.message != '':
-        status_message = args.message
+    status_emoji = args.emoji
+    status_message = args.message
 
     set_status(status_emoji, status_message)
